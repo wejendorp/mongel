@@ -3,7 +3,7 @@ var model = require('..');
 var co = require('co');
 var assert = require('assert');
 
-var Item = model('items', 'localhost/test');
+var Item = model('items', 'localhost/mongel-test');
 
 Item.findOrCreate = function* (doc) {
   var query = { title: doc.title };
@@ -65,6 +65,10 @@ co(function* () {
 
   console.log('testing static findOrCreate');
   previousItem = yield Item.findOrCreate({ title: 'Test D' });
+  assert.deepEqual(previousItem, item);
+
+  console.log('testing static findById');
+  previousItem = yield Item.findById(previousItem._id);
   assert.deepEqual(previousItem, item);
 
   console.log('tests completed');
